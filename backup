@@ -1,0 +1,47 @@
+#!/bin/bash
+
+source /settings.sh
+
+TIMESTAMP=$(date +"%Y-%m-%d %T")
+
+# Set default values for environment variables if they are not set or empty
+: "${PRE_BACKUP_SCRIPT:=''}"
+: "${COMMIT_MSG:='Backup on $TIMESTAMP'}"
+: "${FILES_TO_COMMIT:='.'}"
+
+# Check if the PRE_BACKUP_SCRIPT variable is set and not empty
+if [ -n "$PRE_BACKUP_SCRIPT" ]; then
+    # Run the commands from the PRE_BACKUP_SCRIPT environment variable
+    while IFS= read -r CMD; do
+        eval "$CMD"
+    done <<< "$PRE_BACKUP_SCRIPT"
+fi
+
+# Navigate to the GIT_SRC folder
+cd "$GIT_SRC" || { echo "Error: Failed to change directory to '$GIT_SRC'"; exit 1; }
+
+# Set the GIT_PUSH_REPO_URL
+GIT_PUSH_REPO_URL="https://$GITHUB_USERNAME:$GITHUB_ACCESS_TOKEN@github.com/$GITHUB_REPO.git"
+
+# Configure the git safe directory
+/usr/bin/git config --global --add safe.directory "$GIT_SRC"
+
+# Check if the folder is a git repository
+if ! /usr/bin/git rev-parse --git-dir > /dev/null 2>&1; then
+    # Initialize a new git repository
+    /usr/bin/git init
+    /usr/bin/git remote add origin "$GIT_PUSH_REPO_URL"
+fi
+
+# Add the specified files to git
+while IFS= read -r FILE; do
+    if [ -n "$FILE" ]; then /usr/bin/git add "$FILE"; fi
+done <<< "$FILES_TO_COMMIT"
+
+# Commit the changes with the COMMIT_MSG
+/usr/bin/git config user.name "$GIT_USER_NAME"
+/usr/bin/git config user.email "$GIT_USER_EMAIL"
+/usr/bin/git commit -m "$(eval echo "${COMMIT_MSG}")"
+
+# Push the changes to the GitHub repository
+/usr/bin/git push "$GIT_PUSH_REPO_URL" "$GITHUB_BRANCH"
