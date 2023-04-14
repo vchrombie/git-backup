@@ -20,8 +20,8 @@ fi
 # Navigate to the GIT_SRC folder
 cd "$GIT_SRC" || { echo "Error: Failed to change directory to '$GIT_SRC'"; exit 1; }
 
-# Set the GIT_PUSH_REPO_URL
-GIT_PUSH_REPO_URL="https://$GITHUB_USERNAME:$GITHUB_ACCESS_TOKEN@github.com/$GITHUB_REPO.git"
+# Set the GITHUB_REPO_URL
+GITHUB_REPO_URL="https://$GITHUB_USERNAME:$GITHUB_ACCESS_TOKEN@github.com/$GITHUB_REPO.git"
 
 # Configure the git safe directory
 /usr/bin/git config --global --add safe.directory "$GIT_SRC"
@@ -30,7 +30,7 @@ GIT_PUSH_REPO_URL="https://$GITHUB_USERNAME:$GITHUB_ACCESS_TOKEN@github.com/$GIT
 if ! /usr/bin/git rev-parse --git-dir > /dev/null 2>&1; then
     # Initialize a new git repository
     /usr/bin/git init
-    /usr/bin/git remote add origin "$GIT_PUSH_REPO_URL"
+    /usr/bin/git remote add origin "$GITHUB_REPO_URL"
 fi
 
 # Add the specified files to git
@@ -44,4 +44,4 @@ done <<< "$FILES_TO_COMMIT"
 /usr/bin/git commit -m "$(eval echo "${COMMIT_MSG}")"
 
 # Push the changes to the GitHub repository
-/usr/bin/git push "$GIT_PUSH_REPO_URL" "$GITHUB_BRANCH"
+/usr/bin/git push "$GITHUB_REPO_URL" "$GITHUB_BRANCH"
