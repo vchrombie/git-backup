@@ -1,5 +1,8 @@
 # git-backup
 
+[![](https://img.shields.io/badge/-github-black.svg?logo=github)](https://github.com/vchrombie/git-backup)
+[![](https://img.shields.io/badge/dockerhub-lightblue.svg?logo=docker)](https://hub.docker.com/r/vchrombie/git-backup)
+
 This repository contains a bash script for a sidecar container that automatically backs up a specified directory to a GitHub repository. The backup process runs periodically using a cron job and can be configured to meet your specific requirements.
 
 ## Features
