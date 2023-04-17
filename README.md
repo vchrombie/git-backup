@@ -68,7 +68,7 @@ services:
     restart: always
 
   backup:
-    build: git-backup
+    image: git-backup
     environment:
       GITHUB_REPO: "vchrombie/floodnet-nodered"
       GITHUB_BRANCH: "nodered-backup"
