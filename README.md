@@ -41,16 +41,9 @@ docker run -d \
   -e GIT_SRC="/path/to/your/source/folder" \
   -e GITHUB_USERNAME="your-github-username" \
   -e GITHUB_ACCESS_TOKEN="your-github-password-or-token" \
-  -e FILES_TO_COMMIT="
-file1
-file2
-/path/to/folder
-" \
+  -e FILES_TO_COMMIT="file1 file2 /path/to/folder" \
   -e COMMIT_MSG="Backup commit message" \
-  -e PRE_BACKUP_SCRIPT="
-your pre-backup script 1
-your pre-backup script 2
-" \
+  -e PRE_BACKUP_SCRIPT="your pre-backup script 1; your pre-backup script 2" \
   -e BACKUP_FREQUENCY="* * * * *" \
   -v /path/to/your/source/folder:/data \
   git-backup
@@ -77,14 +70,15 @@ services:
       GIT_SRC: "/data/nodered"
       GITHUB_USERNAME: $GITHUB_USERNAME
       GITHUB_ACCESS_TOKEN: $GITHUB_ACCESS_TOKEN
-      FILES_TO_COMMIT: |
+      FILES_TO_COMMIT: >
         lib/
         flows.json
         .flows.json.backup
         .config.nodes.json
       COMMIT_MSG: "Backup nodered"
-      PRE_BACKUP_SCRIPT: |
-        echo 'This is a pre-backup script'
+      PRE_BACKUP_SCRIPT: >
+        echo 'This is a pre-backup script';
+        echo 'This is another pre-backup script';
       BACKUP_FREQUENCY: "0 5 * * *"
     volumes:
       - ./data:/data

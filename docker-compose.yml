@@ -18,14 +18,15 @@ services:
       GIT_SRC: "/data/nodered"
       GITHUB_USERNAME: $GITHUB_USERNAME
       GITHUB_ACCESS_TOKEN: $GITHUB_ACCESS_TOKEN
-      FILES_TO_COMMIT: |
+      FILES_TO_COMMIT: >
         lib/
         flows.json
         .flows.json.backup
         .config.nodes.json
       COMMIT_MSG: "Backup nodered"
-      PRE_BACKUP_SCRIPT: |
-        echo 'This is a pre-backup script'
+      PRE_BACKUP_SCRIPT: >
+        echo 'This is a pre-backup script';
+        echo 'This is another pre-backup script';
       BACKUP_FREQUENCY: "0 5 * * *"
     volumes:
       - ./data:/data

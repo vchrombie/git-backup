@@ -12,9 +12,7 @@ TIMESTAMP=$(date +"%Y-%m-%d %T")
 # Check if the PRE_BACKUP_SCRIPT variable is set and not empty
 if [ -n "$PRE_BACKUP_SCRIPT" ]; then
     # Run the commands from the PRE_BACKUP_SCRIPT environment variable
-    while IFS= read -r CMD; do
-        eval "$CMD"
-    done <<< "$PRE_BACKUP_SCRIPT"
+    eval "$PRE_BACKUP_SCRIPT"
 fi
 
 # Navigate to the GIT_SRC folder
@@ -34,9 +32,7 @@ if ! /usr/bin/git rev-parse --git-dir > /dev/null 2>&1; then
 fi
 
 # Add the specified files to git
-while IFS= read -r FILE; do
-    if [ -n "$FILE" ]; then /usr/bin/git add "$FILE"; fi
-done <<< "$FILES_TO_COMMIT"
+/usr/bin/git add $FILES_TO_COMMIT
 
 # Commit the changes with the COMMIT_MSG
 /usr/bin/git config user.name "$GIT_USER_NAME"
