@@ -98,16 +98,16 @@ docker-compose up -d
 The following environment variables can be set in the `docker-compose.yml` file to configure the backup process:
 
 - `GITHUB_REPO`: The Git repository where the backups should be pushed (e.g., "username/repo").
-- `GITHUB_BRANCH`: The branch in the Git repository where the backups should be pushed.
-- `GIT_USER_NAME`: The Git user name for committing changes.
-- `GIT_USER_EMAIL`: The Git user email for committing changes.
-- `GIT_SRC`: The source directory containing the files to be backed up.
+- `GITHUB_BRANCH`: The branch in the Git repository where the backups should be pushed. (default: `main`)
+- `GIT_USER_NAME`: The Git user name for committing changes. (default: `github-actions[bot]`)
+- `GIT_USER_EMAIL`: The Git user email for committing changes. (default: `github-actions[bot]@users.noreply.github.com`)
+- `GIT_SRC`: The source directory containing the files to be backed up. (default: `/src`)
 - `GITHUB_USERNAME`: The GitHub username for authentication.
 - `GITHUB_ACCESS_TOKEN`: The GitHub password or personal access token for authentication.
-- `FILES_TO_COMMIT`: The list of files or directories to be included in the backup commit.
-- `COMMIT_MSG`: The commit message for the backup process.
-- `PRE_BACKUP_SCRIPT`: A script to be executed before the backup process starts.
-- `BACKUP_FREQUENCY`: The frequency at which the backup process should run, specified as a cron expression.
+- `FILES_TO_COMMIT`: The list of files or directories to be included in the backup commit. (default: `.` - all files and directories)
+- `COMMIT_MSG`: The commit message for the backup process. (default: `Backup on $TIMESTAMP`)
+- `PRE_BACKUP_SCRIPT`: A script to be executed before the backup process starts. (default: `""` - no scripts)
+- `BACKUP_FREQUENCY`: The frequency at which the backup process should run, specified as a cron expression. (default: `0 5 * * *` - every day at 5 AM)
 
 ## Credits
 
